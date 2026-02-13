@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mở quà 🎁</title>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: radial-gradient(circle at top, #4b2ca3, #0a001a);
+            font-family: 'Courier New', monospace;
+        }
+
+        canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+        }
+
+        .gift {
+            font-size: 90px;
+            cursor: pointer;
+            animation: bounce 1.5s infinite;
+        }
+
+        .text {
+            color: white;
+            opacity: .8;
+            margin-top: 10px;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .transition {
+            animation: zoomFade 0.8s forwards;
+        }
+
+        @keyframes zoomFade {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+                filter: brightness(1);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0;
+                filter: brightness(2);
+            }
+        }
+
+        .cat {
+            position: fixed;
+            width: 160px;
+            /* chỉnh to nhỏ tùy bạn */
+            z-index: 3;
+            /* cao hơn canvas */
+        }
+
+        /* góc trên phải */
+        .top-right-cat {
+            top: 0;
+            right: 0;
+        }
+
+        /* góc dưới trái */
+        .bottom-left-cat {
+            bottom: 0;
+            left: 0;
+        }
+
+        /* góc trên trái */
+        .top-left-cat {
+            top: 0;
+            left: 0;
+        }
+
+        /* góc dưới phải */
+        .bottom-right-cat {
+            bottom: 0;
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="bg"></canvas>
+
+    <div class="center">
+        <div class="gift" id="gift">🎁</div>
+        <div class="text">Mở quà 💖</div>
+    </div>
+
+    <img src="images/meongoc.gif" class="cat top-right-cat">
+    <img src="images/meongoc.gif" class="cat bottom-left-cat">
+    <img src="images/meotim.gif" class="cat top-left-cat">
+    <img src="images/meotim.gif" class="cat bottom-right-cat">
+
+    <script>
+        /* CANVAS */
+        const canvas = document.getElementById("bg");
+        const ctx = canvas.getContext("2d");
+
+        function resize() {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        /* SAO */
+        const stars = [];
+        for (let i = 0; i < 200; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.5 + 0.5,
+                v: Math.random() * 0.6 + 0.2
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "white";
+            stars.forEach(s => {
+                s.y += s.v;
+                if (s.y > canvas.height) s.y = 0;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        /* CLICK QUÀ */
+        document.getElementById("gift").onclick = () => {
+            const center = document.querySelector(".center");
+            center.classList.add("transition");
+
+            setTimeout(() => {
+                window.location.href = "bong.html";
+            }, 800);
+        };
+    </script>
+
+</body>
+
+</html>

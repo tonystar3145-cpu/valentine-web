@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Thư gửi cậu 💖</title>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: radial-gradient(circle at top, #3a1c71, #000014);
+        }
+
+        /* ===== SAO ===== */
+        canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* ===== PHONG BÌ ===== */
+        .envelope-wrapper {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+
+            opacity: 0;
+            animation: slideIn 1.5s cubic-bezier(.68, -0.55, .27, 1.55) forwards;
+        }
+
+        .envelope {
+            width: 500px;
+            /* tăng từ 400 → 500 */
+            height: 320px;
+            /* tăng từ 260 → 320 */
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Thân phong bì */
+        .body-envelope {
+            width: 100%;
+            height: 100%;
+            background: #f5d6a1;
+            border-radius: 8px;
+            position: absolute;
+            z-index: 2;
+        }
+
+        /* Nắp */
+        .flap {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #eac086;
+            clip-path: polygon(0 0, 100% 0, 50% 65%);
+            transform-origin: top;
+            transition: 0.6s;
+            z-index: 4;
+        }
+
+        .envelope.open .flap {
+            transform: rotateX(180deg);
+        }
+
+        /* ===== LÁ THƯ ===== */
+        .letter {
+            position: absolute;
+            width: 94%;
+            /* rộng hơn */
+            height: 320px;
+            /* dài hơn */
+            background: white;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0px;
+            padding: 30px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            z-index: 1;
+            transition: 0.6s ease;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+        }
+
+
+        .envelope.open .flap {
+            transform: rotateX(-180deg);
+            z-index: 0;
+            /* hạ xuống dưới */
+        }
+
+        .envelope.open .letter {
+            transform: translate(-50%, -190px);
+            z-index: 6;
+        }
+
+        /* Text */
+        #typed-text {
+            font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #1f1f1f;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+        }
+
+        /* ===== TRÁI TIM GIỮA PHONG BÌ ===== */
+        .heart {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            color: #ff3b6b;
+            z-index: 5;
+            /* cao hơn body và flap */
+            transition: 0.6s ease;
+        }
+
+        /* Khi mở thư thì trái tim biến mất */
+        .envelope.open .heart {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.3);
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .cat {
+            position: fixed;
+            bottom: 0;
+            width: 180px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* Mèo bên trái */
+        .cat-left {
+            left: 0;
+        }
+
+        /* Mèo bên phải */
+        .cat-right {
+            right: 0;
+            transform: scaleX(-1);
+            /* lật ngang cho đối xứng */
+        }
+
+        /* ===== NÚT TIẾP TỤC ===== */
+        .next-btn {
+            position: fixed;
+            top: 50%;
+            left: calc(50% + 330px);
+            /* nằm bên phải phong bì */
+            transform: translateY(-50%);
+            padding: 14px 26px;
+            font-size: 16px;
+            font-weight: 600;
+            background: linear-gradient(45deg, #ff4e8a, #ff6fa5);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 80, 140, 0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.4s ease;
+            z-index: 20;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-50%) scale(1.08);
+            box-shadow: 0 15px 35px rgba(255, 80, 140, 0.6);
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translate(-150%, -50%);
+                opacity: 0;
+            }
+
+            60% {
+                transform: translate(-45%, -50%);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -50%);
+                opacity: 1;
+            }
+        }
+
+        body.fade-out {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="bg"></canvas>
+
+    <div class="envelope-wrapper">
+        <button class="next-btn" id="nextBtn">Bấm vào đây đi 💌</button>
+        <div class="envelope" id="envelope">
+            <div class="letter">
+                <p id="typed-text"></p>
+            </div>
+            <div class="body-envelope"></div>
+            <div class="flap"></div>
+            <div class="heart">❤</div>
+        </div>
+    </div>
+
+    <img src="images/meotrang.gif" class="cat cat-left">
+    <img src="images/meotrang.gif" class="cat cat-right">
+
+    <script>
+        /* ===== SAO ===== */
+        const canvas = document.getElementById("bg");
+        const ctx = canvas.getContext("2d");
+
+        function resize() {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        const stars = [];
+        for (let i = 0; i < 200; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.5 + 0.5,
+                v: Math.random() * 0.6 + 0.2
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+
+            stars.forEach(s => {
+                s.y += s.v;
+                if (s.y > canvas.height) s.y = 0;
+
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        /* ===== MỞ THƯ + GÕ CHỮ ===== */
+        const envelope = document.getElementById("envelope");
+        const textElement = document.getElementById("typed-text");
+
+        const message = `Ồ  hello xin chào cô gái ngốc.
+Hôm nay là vô cùng đặc biệt đó bà biết không Bảo Hân.
+Đây cũng là lần đầu tiên Bambi làm món quà vì ai đó,mong là bà sẽ thích món quà này.
+Hôm nay Tân mong Bông sẽ có một Valentine vui vẻ và đáng nhớ.
+Mong người đẹp sẽ luôn tươi cười không muộn phiền nữa.
+JET JET nhưng vẫn luôn dễ thương.
+Chúc Bông càng xinh đẹp,cute,ngoan ngoãn hơn và làm được những điều mình thích.
+Chúc bà mọi điều tốt đẹp nhất Bông ngốc người con gái tui thương.
+Tui thương bà Đặng Ngọc Bảo Hân💖`;
+
+        let index = 0;
+        let opened = false;
+
+        function typeWriter() {
+            if (index < message.length) {
+                textElement.innerHTML += message.charAt(index);
+                index++;
+                setTimeout(typeWriter, 40);
+            }
+        }
+
+        const nextBtn = document.getElementById("nextBtn");
+
+        envelope.addEventListener("click", () => {
+            if (opened) return;
+            opened = true;
+
+            envelope.classList.add("open");
+
+            setTimeout(() => {
+                nextBtn.style.opacity = "1";
+                nextBtn.style.pointerEvents = "auto";
+            }, 800);
+
+            setTimeout(typeWriter, 1000);
+        });
+
+        nextBtn.addEventListener("click", () => {
+            document.body.classList.add("fade-out");
+
+            setTimeout(() => {
+                window.location.href = "tatca.html";
+            }, 800); // đúng bằng thời gian transition
+        });
+
+
+    </script>
+
+</body>
+
+</html>

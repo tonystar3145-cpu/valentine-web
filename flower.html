@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Flower</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  overflow: hidden;
+}
+
+video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover; /* full màn hình không méo */
+}
+</style>
+
+</style>
+
+</head>
+<body>
+
+<video id="flower" autoplay muted>
+  <source src="images/flower.mp4" type="video/mp4">
+</video>
+
+<script>
+const video = document.getElementById("flower");
+const loopStart = 3.2;
+const loopEnd = 7.45;
+
+function smoothLoop() {
+  if (video.currentTime >= loopEnd) {
+    video.currentTime = loopStart + 0.01; // nhảy lệch 1 tí
+  }
+  requestAnimationFrame(smoothLoop);
+}
+
+video.addEventListener("play", () => {
+  requestAnimationFrame(smoothLoop);
+});
+</script>
+
+</body>
+</html>
+
+
+
+
+

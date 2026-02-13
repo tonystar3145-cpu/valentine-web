@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>For My Love 💖</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, #2b1055, #000);
+
+            opacity: 0;
+            transform: scale(1.05);
+            animation: pageReveal 1.5s ease forwards;
+        }
+
+        @keyframes pageReveal {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* ===== SAO NỀN ===== */
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .stars span {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from {
+                opacity: 0.2;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ===== PHẦN 1: TRÁI TIM PNG ===== */
+        .heart-section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .heart-img {
+            width: 450px;
+            max-width: 90%;
+            display: block;
+        }
+
+        /* ===== PHẦN 2: LÁ THƯ ===== */
+        .letter-section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .letter-box {
+            width: 700px;
+            max-width: 90%;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            font-size: 18px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        /* ===== PHẦN 3: TIM + TEXT BAY ===== */
+        .heart-animation {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s ease;
+        }
+
+        .show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .small-heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 14px;
+            pointer-events: none;
+            animation: pulse 2s infinite ease-in-out;
+            position: absolute;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+        }
+
+        .text {
+            position: absolute;
+            /* đổi từ fixed */
+            left: 0;
+            bottom: -50px;
+            color: #ff69b4;
+            font-weight: bold;
+            text-shadow: 0 0 15px pink;
+            pointer-events: none;
+            z-index: 99999;
+            animation: floatUp linear forwards;
+            will-change: transform;
+            transform: translateZ(0);
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-300vh);
+                opacity: 0;
+            }
+        }
+
+        .gif-button {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 999999;
+            text-align: center;
+        }
+
+        .gif-text {
+            margin-top: 10px;
+            color: #ff69b4;
+            font-weight: bold;
+            font-size: 18px;
+            text-shadow: 0 0 10px pink;
+            animation: glowText 1.5s infinite alternate;
+        }
+
+        @keyframes glowText {
+            from {
+                text-shadow: 0 0 5px #ff69b4;
+            }
+
+            to {
+                text-shadow: 0 0 20px #ff1493;
+            }
+        }
+
+        .gif-button img {
+            width: 230px;
+            /* chỉnh to nhỏ */
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .gif-button img:hover {
+            transform: scale(1.2);
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #ff69b4;
+            }
+
+            to {
+                text-shadow: 0 0 25px #ff1493;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="flower.html" class="gif-button">
+        <img src="images/hamster.gif" alt="next">
+        <div class="gif-text">Bấm vào nhóc này đi 💖</div>
+    </a>
+    <!-- NỀN SAO -->
+    <div class="stars"></div>
+
+    <!-- PHẦN 1 -->
+    <section class="heart-section">
+        <img src="images/bobong.png" class="heart-img">
+    </section>
+
+    <!-- PHẦN 2 -->
+    <section class="letter-section">
+        <div class="letter-box">
+            Ồ hello xin chào cô gái ngốc 💖<br>
+            Hôm nay là ngày vô cùng đặc biệt đó bà biết không.<br>
+            Đây cũng là lần đầu tiên tui làm một món quà vì ai đó,mong là bà sẽ thích món quà này.<br>
+            Hôm nay Tân mong Bông sẽ có một Valentine vui vẻ và đáng nhớ.<br>
+            Mong người đẹp sẽ luôn tươi cười không muộn phiền nữa.<br>
+            JET JET nhưng vẫn luôn dễ thương.<br>
+            Chúc Bông càng xinh đẹp,cute,ngoan ngoãn hơn và làm được những điều mình thích.<br>
+            Chúc bà mọi điều tốt đẹp nhất Bông ngốc người con gái tui thương.<br><br>
+            Tui thương bà Đặng Ngọc Bảo Hân💖<br><br>
+        </div>
+    </section>
+
+    <!-- PHẦN 3 -->
+    <section class="heart-animation"></section>
+
+    <script>
+
+        /* Tạo sao random */
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement("span");
+            star.style.top = Math.random() * 100 + "%";
+            star.style.left = Math.random() * 100 + "%";
+            star.style.animationDuration = (1 + Math.random() * 3) + "s";
+            document.querySelector(".stars").appendChild(star);
+        }
+
+        /* I LOVE YOU bay */
+        function createText() {
+            const text = document.createElement("div");
+            text.className = "text";
+            text.innerHTML = "I LOVE U";
+
+            text.style.left = Math.random() * 100 + "vw";
+            text.style.fontSize = (18 + Math.random() * 30) + "px";
+            text.style.animationDuration = (4 + Math.random() * 3) + "s";
+
+            document.body.appendChild(text);
+
+            setTimeout(() => { text.remove(); }, 7000);
+        }
+
+        /* ===== THÊM TRÁI TIM NHIỀU TIM NHỎ ===== */
+
+        function createHeart() {
+
+            const section = document.querySelector(".heart-animation");
+
+            const centerX = section.offsetWidth / 2;
+            const centerY = section.offsetHeight / 2;
+
+            const scale = 18;
+
+            for (let t = 0; t < Math.PI * 2; t += 0.05) {
+
+                const x = 16 * Math.pow(Math.sin(t), 3);
+                const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t)
+                    - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+
+                const heart = document.createElement("div");
+                heart.className = "small-heart";
+                heart.innerHTML = "❤";
+
+                heart.style.left = centerX + x * scale + "px";
+                heart.style.top = centerY - y * scale + "px";
+
+                section.appendChild(heart);
+            }
+        }
+
+        createHeart();
+
+        const sections = document.querySelectorAll(
+            ".heart-section, .letter-section, .heart-animation"
+        );
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                }
+            });
+        }, { threshold: 0.3 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        setInterval(createText, 800);
+
+        let currentSection = 0;
+        const allSections = document.querySelectorAll("section");
+
+        function scrollNext() {
+            currentSection++;
+            if (currentSection >= allSections.length) {
+                currentSection = 0;
+            }
+
+            allSections[currentSection].scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>

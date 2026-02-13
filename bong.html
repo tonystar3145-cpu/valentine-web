@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Bông Ngốc 💖</title>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: radial-gradient(circle at top, #3a1c71, #000014);
+
+        }
+
+        canvas {
+            position: fixed;
+            inset: 0;
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: transparent;
+            width: auto;
+            height: auto;
+        }
+
+        img {
+            width: 650px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: scale(1) translateY(0);
+            }
+
+            50% {
+                transform: scale(1.05) translateY(-10px);
+            }
+
+            100% {
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .bunny {
+            position: fixed;
+            padding: 10px;
+            z-index: 10;
+            /* để nằm trên canvas */
+        }
+
+        .bunny img {
+            width: 130px;
+            /* chỉnh to nhỏ tùy bạn */
+        }
+
+        /* Vị trí từng góc */
+        .bottom-left {
+            bottom: 0;
+            left: 0;
+        }
+
+        .bottom-right {
+            bottom: 0;
+            right: 0;
+        }
+
+        .top-right {
+            top: 0;
+            right: 0;
+        }
+
+        .left-text {
+            position: fixed;
+            left: 40px;
+            /* cách lề trái */
+            top: 50%;
+            transform: translateY(-50%);
+
+            font-size: 48px;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+
+            color: #ff69b4;
+            /* hồng */
+
+            /* hiệu ứng ánh viền phát sáng */
+            text-shadow:
+                0 0 5px #ffb6f9,
+                0 0 10px #ff85e6,
+                0 0 20px #ff4dd2,
+                0 0 40px #ff00cc;
+
+            animation: glow 2s ease-in-out infinite alternate;
+            z-index: 20;
+        }
+
+        .right-text {
+            position: fixed;
+            right: 40px;
+            /* cách lề phải */
+            top: 50%;
+            transform: translateY(-50%);
+
+            font-size: 48px;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+
+            color: #ff69b4;
+
+            text-shadow:
+                0 0 5px #ffb6f9,
+                0 0 10px #ff85e6,
+                0 0 20px #ff4dd2,
+                0 0 40px #ff00cc;
+
+            animation: glow 2s ease-in-out infinite alternate;
+            z-index: 20;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow:
+                    0 0 5px #ffb6f9,
+                    0 0 10px #ff85e6,
+                    0 0 20px #ff4dd2;
+            }
+
+            to {
+                text-shadow:
+                    0 0 10px #fff,
+                    0 0 20px #ff85e6,
+                    0 0 40px #ff00cc,
+                    0 0 60px #ff00cc;
+            }
+        }
+
+        .page-fade {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, #3a1c71, #000014);
+            opacity: 1;
+            pointer-events: none;
+            z-index: 9999;
+            transition: opacity 1.2s ease;
+        }
+
+        .next-btn {
+            position: fixed;
+            right: 40px;
+            /* canh theo right-text */
+            top: calc(50% + 80px);
+            /* nằm dưới chữ */
+
+            padding: 12px 28px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+
+            box-shadow: 0 0 15px #ff69b4,
+                0 0 30px #ff1493;
+
+            transition: 0.3s;
+            z-index: 30;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="page-fade"></div>
+
+    <div class="center">
+        <img src="images/Bong-Photoroom.png" alt="heart">
+    </div>
+
+    <button class="next-btn">Bấm qua tiếp đi 💖</button>
+
+    <div class="bunny">
+        <img src="images/tho.gif" alt="bunny">
+    </div>
+
+    <div class="bunny bottom-left">
+        <img src="images/tho.gif" alt="bunny">
+    </div>
+
+    <div class="bunny bottom-right">
+        <img src="images/tho.gif" alt="bunny">
+    </div>
+
+    <div class="bunny top-right">
+        <img src="images/tho.gif" alt="bunny">
+    </div>
+
+    <div class="left-text">
+        Hân ngốc 💕
+    </div>
+
+    <div class="right-text">
+        Bông ngốc 💕
+    </div>
+
+    <script>
+        /* sao */
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        function resize() {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        const stars = [];
+        for (let i = 0; i < 150; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.5 + 0.5,
+                v: Math.random() * 0.4 + 0.2
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            stars.forEach(s => {
+                s.y += s.v;
+                if (s.y > canvas.height) s.y = 0;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        window.addEventListener("load", () => {
+            const fade = document.querySelector(".page-fade");
+            fade.style.opacity = "0";
+
+            setTimeout(() => {
+                fade.remove();
+            }, 1200);
+        });
+
+        document.querySelector(".next-btn").onclick = () => {
+            window.location.href = "thiep.html"; // đổi tên file nếu cần
+        };
+    </script>
+
+</body>
+
+</html>
